@@ -1,5 +1,4 @@
 import { Component } from "./common/Component";
-import { Title } from "./components/Title";
 import { Form } from "./components/Form";
 import { TaskList } from "./components/TaskList";
 import { DoneTaskList } from "./components/DoneTaskList";
@@ -10,7 +9,6 @@ export class App extends Component {
     super(parent, "div", "app");
     this.storage = new StorageAPI();
 
-    this.title = new Title(this.node, "TODO");
     this.form = new Form(this.node, this.add.bind(this));
     this.main = new Component(this.node, "main", "main");
     this.taskList = null;
