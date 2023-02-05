@@ -70,7 +70,7 @@ export class App extends Component {
       "done-tasks-wrapper",
       this.removeDoneTask.bind(this),
       this.restore.bind(this),
-      "<h3>Done</h3>"
+      `<h2 class="done-list-title">Done</h2>`
     );
     this.main.node.insertAdjacentElement("beforeend", this.doneTaskList.node);
   }
