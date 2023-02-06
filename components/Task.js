@@ -1,65 +1,42 @@
 import { Component } from "../common/Component";
 import { toggleVisible } from "../common/utils";
+import { Button } from "./Button";
+import { Checkbox } from "./Checkbox";
+import { Input } from "./Input";
 
 export class Task extends Component {
   constructor(parent, { id, text }, removeTask, editTask, doneTask) {
     super(parent, "li", "task");
     this.node.setAttribute("data-id", id);
 
-    const checkboxLabel = document.createElement("label");
-    checkboxLabel.className = "checkbox-container";
+    new Checkbox(this.node, doneTask, id);
 
-    const checkboxInput = document.createElement("input");
-    checkboxInput.setAttribute("type", "checkbox");
-    checkboxInput.onchange = () => {
-      doneTask(id);
-    };
+    const textWrapper = new Component(this.node, "div", "task-text-wrapper");
 
-    const checkboxMark = document.createElement("div");
-    checkboxMark.className = "checkbox-checkmark";
+    const taskName = new Component(textWrapper.node, "p", "task-text", text);
 
-    checkboxLabel.append(checkboxInput, checkboxMark);
+    const editInput = new Input(textWrapper.node, "task-input hidden", {
+      value: text,
+    });
 
-    this.node.append(checkboxLabel);
+    const btnWrapper = new Component(this.node, "div", "btn-wrapper");
 
-    const taskName = document.createElement("p");
-    taskName.className = "task-text";
-    taskName.textContent = text;
+    const editBtn = new Button(btnWrapper.node, "edit-btn");
 
-    const editInput = document.createElement("input");
-    editInput.setAttribute("value", text);
-    editInput.className = "task-input";
-    editInput.classList.add("hidden");
-    taskName.append(editInput);
+    const saveBtn = new Button(btnWrapper.node, "save-btn");
 
-    const textWrapper = document.createElement("div");
-    textWrapper.className = "task-text-wrapper";
-    textWrapper.append(taskName, editInput);
-    this.node.append(textWrapper);
+    const removeBtn = new Button(btnWrapper.node, "remove-btn");
 
-    const editBtn = document.createElement("button");
-    editBtn.className = "edit-btn";
-
-    const saveBtn = document.createElement("button");
-    saveBtn.className = "save-btn";
-
-    const removeBtn = document.createElement("button");
-    removeBtn.className = "remove-btn";
-    removeBtn.addEventListener("click", () => removeTask(id));
-
-    const btnWrapper = document.createElement("div");
-    btnWrapper.className = "btn-wrapper";
-    btnWrapper.append(editBtn, saveBtn, removeBtn);
-    this.node.append(btnWrapper);
+    removeBtn.node.addEventListener("click", () => removeTask(id));
 
     this.node.addEventListener("click", (e) => {
       if (e.target.className === "edit-btn") {
-        toggleVisible(taskName, editInput, "hide");
-        editInput.focus();
+        toggleVisible(taskName.node, editInput.node, "hide");
+        editInput.node.focus();
       }
       if (e.target.className === "save-btn") {
-        toggleVisible(taskName, editInput, "");
-        editTask({ id, text: editInput.value });
+        toggleVisible(taskName.node, editInput.node, "");
+        editTask({ id, text: editInput.getValue() });
       }
     });
   }
