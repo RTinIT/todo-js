@@ -13,7 +13,12 @@ export class DoneTaskList extends Component {
         (task) => new DoneTask(elementList.node, task, removeTask, restoreTask)
       );
     } else {
-      new Component(elementList.node, "p", "message", "There is no Tasks.");
+      new Component(
+        elementList.node,
+        "p",
+        "message",
+        "There is no completed tasks."
+      );
     }
   }
 }
