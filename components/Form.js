@@ -2,6 +2,7 @@ import { Component } from "../common/Component";
 import { Title } from "./Title";
 import { uid } from "../common/utils";
 import { Input } from "./Input";
+import { Button } from "./Button";
 
 export class Form extends Component {
   constructor(parent, addTask = (it) => it) {
@@ -12,11 +13,7 @@ export class Form extends Component {
       placeholder: "Write task ...",
     });
 
-    const button = document.createElement("button");
-    button.className = "form-btn";
-    button.textContent = "ADD TASK";
-
-    this.node.append(button);
+    const button = new Button(this.node, "form-btn", "", "ADD TASK");
 
     this.node.addEventListener("submit", (e) => {
       e.preventDefault();
