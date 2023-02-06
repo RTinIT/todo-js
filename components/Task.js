@@ -5,8 +5,9 @@ import { Checkbox } from "./Checkbox";
 import { Input } from "./Input";
 
 export class Task extends Component {
-  constructor(parent, { id, text }, removeTask, editTask, doneTask) {
+  constructor(parent, task, removeTask, editTask, doneTask) {
     super(parent, "li", "task");
+    const { id, text } = task;
     this.node.setAttribute("data-id", id);
 
     new Checkbox(this.node, doneTask, id);
