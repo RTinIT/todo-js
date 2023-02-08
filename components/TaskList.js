@@ -1,20 +1,35 @@
 import { Component } from "../common/Component";
 import { Task } from "./Task";
-import { StorageAPI } from "../data/StorageAPI";
 
 export class TaskList extends Component {
-  constructor(parent, className, removeTask, editTask, doneTask) {
+  list;
+  itemsCount;
+
+  constructor(parent, className, storage, removeTask, editTask, doneTask) {
     super(parent, "div", className);
-    const elementList = new Component(this.node, "ul", "task-list");
-    const storage = new StorageAPI();
-    const tasks = storage.loadJSON("tasks");
-    if (tasks.length) {
+    storage.subscribe(this);
+    const { state } = storage;
+    this.itemsCount = state.current.length;
+
+    this.list = new Component(this.node, "ul", "task-list");
+    this.message = new Component(null, "p", "message", "There is no tasks.");
+
+    const tasks = state.current;
+    if (this.itemsCount) {
       tasks.forEach(
-        (task) =>
-          new Task(elementList.node, task, removeTask, editTask, doneTask)
+        (task) => new Task(this.list.node, task, removeTask, editTask, doneTask)
       );
     } else {
-      new Component(elementList.node, "p", "message", "There is no tasks.");
+      this.list.node.append(this.message.node);
+    }
+  }
+
+  signal(state) {
+    this.itemsCount = state.current.length;
+    if (!this.itemsCount) {
+      this.list.node.append(this.message.node);
+    } else {
+      this.message.destroy();
     }
   }
 }

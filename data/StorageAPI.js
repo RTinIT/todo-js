@@ -1,39 +1,61 @@
 export class StorageAPI {
+  constructor(key) {
+    this.key = key;
+    this.state = { prev: [], current: this.loadJSON(this.key) };
+    this.subscribers = [];
+  }
+
+  setState() {
+    if (this.state.current.length) {
+      this.state.prev = this.state.current.slice();
+    }
+    this.state.current = this.loadJSON(this.key);
+    this.notify();
+  }
+
+  subscribe(subs) {
+    this.subscribers.push(subs);
+  }
+
+  notify() {
+    this.subscribers.forEach((subs) => {
+      subs.signal(this.state);
+    });
+  }
+
   loadJSON = (key) => {
     return localStorage.getItem(key)
       ? JSON.parse(localStorage.getItem(key))
       : [];
   };
 
-  saveJSON = (key, obj) => {
-    localStorage.setItem(key, JSON.stringify(obj));
+  saveJSON = (obj) => {
+    localStorage.setItem(this.key, JSON.stringify(obj));
+    this.setState();
   };
 
-  joinJSON = (key, obj) => {
-    const currentData = this.loadJSON(key);
-    localStorage.setItem(key, JSON.stringify([...currentData, obj]));
+  joinJSON = (obj) => {
+    localStorage.setItem(
+      this.key,
+      JSON.stringify([...this.state.current, obj])
+    );
+    this.setState();
   };
 
-  updateJSON = (id, key) => {
-    const currentData = this.loadJSON(key);
-    const newData = currentData.filter((e) => e.id !== id);
-    this.saveJSON(key, newData);
+  updateJSON = (id) => {
+    const { current } = this.state;
+    const newData = current.filter((e) => e.id !== id);
+    this.saveJSON(newData);
   };
 
-  replaceJSON = (srcKey, destKey, id) => {
-    const srcData = this.loadJSON(srcKey);
-    const item = srcData.find((e) => e.id === id);
-    this.joinJSON(destKey, item);
-  };
-
-  editJSON = (key, { id, text }) => {
-    const currentData = this.loadJSON(key);
-    const newData = currentData.map((e) => {
+  editJSON = ({ id, text }) => {
+    const { current } = this.state;
+    const newData = current.map((e) => {
       if (e.id === id) {
         e.text = text;
       }
       return e;
     });
-    this.saveJSON(key, newData);
+    this.saveJSON(newData);
   };
 }
