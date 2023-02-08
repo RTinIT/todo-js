@@ -73,11 +73,6 @@ input::-webkit-input-placeholder { color: var(--green); }
   box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6), 0 0 9px 3px rgba(27, 253, 156, 0.2);
 }
 
-.task-input {
-  margin: 7px 0;
-  width: 100%;
-}
-
 .form-btn,
 .form-input,
 .task-input {
@@ -114,6 +109,44 @@ input::-webkit-input-placeholder { color: var(--green); }
  
 .form-btn:hover:before {
   transform: translateX(15em);
+}
+
+.task-list-wrapper {
+  min-height: 50vh;
+}
+
+.task-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.task {
+  width: 100%;
+  list-style: none;
+  text-align: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60% , rgba(27, 253, 156, 0.1) 100%);
+  color: var(--green);
+  transition: .4s;
+  box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4), 0 0 9px 3px rgba(27, 253, 156, 0.1);
+}
+
+.task-text-wrapper {
+  flex: 5;
+  width: 100%;
+}
+
+.task-input {
+  margin: 7px 0;
+  width: 100%;
 }
 
 .btn-wrapper {
@@ -154,36 +187,26 @@ input::-webkit-input-placeholder { color: var(--green); }
 .edit-btn:hover,
 .save-btn:hover,
 .remove-btn:hover {
-  border: 1px solid #1BFD9C;
+  border: 1px solid var(--green);
   transition: .3s;
 }
 
-.task-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 1em;
+.animate-enter {
+  animation: animate-enter .4s ease-in;
 }
 
-.task {
-  width: 100%;
-  list-style: none;
-  text-align: start;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1em;
-  border: 1px solid #1BFD9C;
-  border-radius: 8px;
-  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60% , rgba(27, 253, 156, 0.1) 100%);
-  color: var(--green);
-  box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4), 0 0 9px 3px rgba(27, 253, 156, 0.1);
+@keyframes animate-enter {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
-.task-text-wrapper {
-  flex: 5;
-  width: 100%
+.animate-remove {
+  animation: animate-remove 0.4s ease-out;
+}
+
+@keyframes animate-remove {
+  from {opacity: 1;}
+  to {opacity: 0;}
 }
 
 .done-list-title {
@@ -244,7 +267,7 @@ input::-webkit-input-placeholder { color: var(--green); }
   top: 0.25em;
   width: 0.35em;
   height: 0.6em;
-  border: solid #1BFD9C;
+  border: solid var(--green);
   border-width: 0 0.15em 0.15em 0;
   transform: rotate(45deg);
 }

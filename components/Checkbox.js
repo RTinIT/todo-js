@@ -1,4 +1,5 @@
 import { Component } from "../common/Component";
+import { animateRemove } from "../common/utils";
 import { Input } from "./Input";
 
 export class Checkbox extends Component {
@@ -11,9 +12,9 @@ export class Checkbox extends Component {
     if (checked) {
       checkboxInput.node.setAttribute("checked", "checked");
     }
-    checkboxInput.node.onchange = () => {
-      onChange(idOrTask);
-    };
+    checkboxInput.node.addEventListener("change", () => {
+      animateRemove(parentNode, () => onChange(parentNode, idOrTask));
+    });
 
     const checkboxMarker = new Component(
       this.node,

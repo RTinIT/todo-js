@@ -1,5 +1,5 @@
 import { Component } from "../common/Component";
-import { toggleVisible } from "../common/utils";
+import { animateRemove, toggleVisible } from "../common/utils";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
 import { Input } from "./Input";
@@ -7,10 +7,11 @@ import { Input } from "./Input";
 export class Task extends Component {
   constructor(parent, task, removeTask, editTask, doneTask) {
     super(parent, "li", "task");
-    const { id, text } = task;
+    const { id } = task;
+    let { text } = task;
     this.node.setAttribute("data-id", id);
 
-    new Checkbox(this.node, doneTask, id);
+    const checkbox = new Checkbox(this.node, doneTask, task);
 
     const textWrapper = new Component(this.node, "div", "task-text-wrapper");
 
@@ -28,7 +29,9 @@ export class Task extends Component {
 
     const removeBtn = new Button(btnWrapper.node, "remove-btn");
 
-    removeBtn.node.addEventListener("click", () => removeTask(id));
+    removeBtn.node.addEventListener("click", () => {
+      animateRemove(this.node, () => removeTask(this.node, id));
+    });
 
     this.node.addEventListener("click", (e) => {
       if (e.target.className === "edit-btn") {

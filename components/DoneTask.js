@@ -1,10 +1,12 @@
 import { Component } from "../common/Component";
 import { Checkbox } from "./Checkbox";
 import { Button } from "./Button";
+import { animateRemove } from "../common/utils";
 
 export class DoneTask extends Component {
   constructor(parent, task, removeTask, restoreTask) {
     super(parent, "li", "task");
+
     const { id, text } = task;
     this.node.setAttribute("data-id", id);
 
@@ -17,6 +19,8 @@ export class DoneTask extends Component {
     const btnWrapper = new Component(this.node, "div", "btn-wrapper");
 
     const removeBtn = new Button(btnWrapper.node, "remove-btn");
-    removeBtn.node.addEventListener("click", () => removeTask(id));
+    removeBtn.node.addEventListener("click", () => {
+      animateRemove(this.node, () => removeTask(this.node, id));
+    });
   }
 }
