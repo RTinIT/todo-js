@@ -13,7 +13,7 @@ export class Form extends Component {
       placeholder: "Write task ...",
     });
 
-    const button = new Button(this.node, "form-btn", "", "ADD TASK");
+    const button = new Button(this.node, "form-btn", "", "ADD");
 
     this.node.addEventListener("submit", (e) => {
       e.preventDefault();
