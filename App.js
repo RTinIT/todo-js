@@ -6,6 +6,7 @@ import { StorageAPI } from "./data/StorageAPI";
 import { Task } from "./components/Task";
 import { DoneTask } from "./components/DoneTask";
 import { animateEnter } from "./common/utils";
+import { Toast } from "./components/Toast";
 
 export class App extends Component {
   constructor(parent) {
@@ -89,6 +90,7 @@ export class App extends Component {
     const { id } = task;
     this.remove.call(this, node, id);
     this.addDone(task);
+    const modal = new Toast(this.node, "Congratulations!");
   }
 
   restore(node, task) {
