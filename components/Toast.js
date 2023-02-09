@@ -7,7 +7,7 @@ export class Toast extends Component {
     this.message = message;
     const img = new Component(this.node, "img", "toast-img");
     const text = new Component(this.node, "span", "toast-text", this.message);
-    img.node.setAttribute("src", "../assets/icons8-конфетти-32.png");
+    img.node.setAttribute("src", "/todo-js/confetti.png");
     setTimeout(() => this.destroy(), 4000);
   }
 }
