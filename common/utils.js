@@ -30,4 +30,8 @@ const animateEnter = (elem) => {
   }, 500);
 };
 
-export { uid, toggleVisible, animateRemove, animateEnter };
+const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export { uid, toggleVisible, animateRemove, animateEnter, random };
