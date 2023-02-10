@@ -90,7 +90,7 @@ export class App extends Component {
     const { id } = task;
     this.remove.call(this, node, id);
     this.addDone(task);
-    const modal = new Toast(this.node, "Congratulations!");
+    const modal = new Toast(this.node);
   }
 
   restore(node, task) {
